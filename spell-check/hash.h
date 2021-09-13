@@ -1,3 +1,11 @@
+/*
+ECE-365 Project 1: spell-checker
+Layth Yassin
+Professor Sable
+
+This is the header file that defines the hashTable class
+*/
+
 #ifndef _HASH_H
 #define _HASH_H
 
