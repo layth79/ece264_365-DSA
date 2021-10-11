@@ -7,7 +7,6 @@ This file includes implementations of functions from heap class.
 */
 
 #include "heap.h"
-#include <climits>
 
 // constructor to initialize heap
 heap::heap(int capacity) {
