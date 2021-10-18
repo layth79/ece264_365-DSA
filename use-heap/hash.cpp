@@ -172,6 +172,11 @@ unsigned int hashTable::getPrime(int size) {
     return primeNumbers[primeNumbersLength - 1];
 }
 
+// Get the pointer associated with the specified key.
+// If the key does not exist in the hash table, return nullptr.
+// If an optional pointer to a bool is provided,
+// set the bool to true if the key is in the hash table,
+// and set the bool to false otherwise.
 // returns pointer associated with specified key
 void *hashTable::getPointer(const std::string &key, bool *b) {
     int pos = findPos(key);

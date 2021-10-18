@@ -73,8 +73,10 @@ int heap::deleteMin(std::string *pId, int *pKey, void *ppData) {
         }
 
         mapping.remove(data[1].id); // remove first element in heap containing minimum key
-        data[1] = std::move(data[currentSize--]); // move last node of heap to beginning and percolate down
-        percolateDown(1); 
+        data[1] = std::move(data[currentSize]); // move last node of heap to beginning and percolate down
+        percolateDown(1);
+        data[currentSize] = node();
+        currentSize--;
 
         return 0;
     }
@@ -100,6 +102,7 @@ int heap::remove(const std::string &id, int *pKey, void *ppData) {
         mapping.remove(id);
         *pn = data[currentSize];
         int currentKey = pn->key;
+        data[currentSize] = node();
         --currentSize;
 
         if (currentKey < oldKey) {
@@ -122,7 +125,7 @@ void heap::percolateUp(int posCur) {
 
     for (; (posCur > 1) && (copy.key < data[posCur / 2].key); posCur /= 2) {
         data[posCur] = std::move(data[posCur / 2]);
-        mapping.setPointer(data[posCur / 2].id, &data[posCur / 2]);
+        mapping.setPointer(data[posCur].id, &data[posCur]);
     }
 
     data[posCur] = std::move(copy);

@@ -79,9 +79,9 @@ class heap {
     private:
         class node { // An inner class within heap
         public:
-            std::string id; // The id of this node
+            std::string id = ""; // The id of this node
             int key; // The key of this node
-            void *pData; // A pointer to the actual data
+            void *pData = nullptr; // A pointer to the actual data
         };
         
         int capacity, currentSize; // capacity and current size of the heap
