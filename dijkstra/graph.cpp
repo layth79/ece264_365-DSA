@@ -74,12 +74,7 @@ void graph::dijkstra(const std::string &id) {
     // initialize source vertex and insert it into the heap
     source->distance = 0;
     source->prev = nullptr;
-    h.insert(id, source->distance, source);
-
-    // populate heap with unknown nodes
-    for (std::list<node *>::const_iterator it = vertices.begin(); it != vertices.end(); it++) {
-        h.insert((*it)->id, (*it)->distance, (*it));
-    }
+    h.insert(id, source->distance, mapping.getPointer(id));
 
     std::string key;
     int val;
@@ -87,18 +82,14 @@ void graph::dijkstra(const std::string &id) {
     while (!(h.deleteMin(&key, &val, &tmp))) {
         node *v = static_cast<node *> (tmp);
         v->known = true;
-        // if dv is still INT_MAX, then there is no path to it and it is only updated to known 
-        if (v->distance != INT_MAX) {
-            // loop through all edges from v and update distances and prev nodes  
-            for (std::list<edge>::const_iterator it = v->adjList.begin(); it != v->adjList.end(); it++) {
-                if (v->distance + it->cost < it->destinationVertex->distance) {
-                    it->destinationVertex->distance = v->distance + it->cost;
-                    h.setKey(it->destinationVertex->id, it->destinationVertex->distance);
-                    it->destinationVertex->prev = v;
-                }
+        // loop through all edges from v and update distances and prev nodes; insert destination vertices into heap
+        for (std::list<edge>::const_iterator it = v->adjList.begin(); it != v->adjList.end(); it++) {
+            if (v->distance + it->cost < it->destinationVertex->distance) {
+                it->destinationVertex->distance = v->distance + it->cost;
+                it->destinationVertex->prev = v;
+                h.insert(it->destinationVertex->id, it->destinationVertex->distance, mapping.getPointer(it->destinationVertex->id));
             }
         }
-        v->known = true;
     }
 }
 
